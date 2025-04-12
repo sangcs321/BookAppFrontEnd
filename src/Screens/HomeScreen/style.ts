@@ -7,6 +7,7 @@ const WIDTH_IMAGE = (widthScreen - 33) / 2;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    top: 20,
   },
   header: {
     backgroundColor: Colors.tint,

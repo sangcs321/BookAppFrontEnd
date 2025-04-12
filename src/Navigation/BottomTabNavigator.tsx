@@ -45,7 +45,7 @@ function BottomTabNavigator() {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Thông báo"
         component={Notification}
         options={{
@@ -82,7 +82,7 @@ function BottomTabNavigator() {
           },
           tabBarBadge: data?.length,
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Giỏ hàng"
         component={CartScreen}

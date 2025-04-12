@@ -22,14 +22,14 @@ import styles from './style';
 import Loading from '../../Components/Common/Loading';
 
 const CartScreen = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigation = useNavigation<any>();
  
   return (
     <ScrollView style={styles.container}>
       <View style={styles.containerTotal}>
         <Text style={styles.txtTotal}>Tổng tiền : </Text>
-        <Text style={styles.txtPrice}>{formatCurrencyVND(total)}</Text>
+        {/* <Text style={styles.txtPrice}>{formatCurrencyVND(total)}</Text> */}
       </View>
       <Pressable
         
@@ -40,7 +40,7 @@ const CartScreen = () => {
            sản phẩm
         </Text>
       </Pressable>
-      <View style={{marginHorizontal: 10}}>
+      {/* <View style={{marginHorizontal: 10}}>
         {cart.map((item, index) => (
           <CartItem
             key={index}
@@ -50,7 +50,7 @@ const CartScreen = () => {
             // onDelete={handleDelete}
           />
         ))}
-      </View>
+      </View> */}
       {/* <Loading visible={isLoading} /> */}
     </ScrollView>
   );

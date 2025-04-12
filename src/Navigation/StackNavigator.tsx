@@ -7,12 +7,16 @@ import RegisterScreen from '../Screens/Register/RegisterScreen';
 import ForgetPwScreen from '../Screens/Forget/ForgetScreen';
 import HomeScreen from '../Screens/HomeScreen/HomeScreens';
 import BottomTabNavigator from './BottomTabNavigator';
+import ProfileScreen from '../Screens/ProfileScreen/ProfileScreen';
+import CartScreen from '../Screens/CartScreen/CartScreen';
 type StackParamList = {
     Login: any;
     Register: any;
     Forget: any;
     Home: any;
     Main: any;
+    Profile: any;
+    Cart: any;
 }
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -23,13 +27,15 @@ const StackLayout = () => {
                 <Stack.Screen name="Login" component={LoginScreen} />
                 <Stack.Screen name="Register" component={RegisterScreen} />
                 <Stack.Screen name="Forget" component={ForgetPwScreen} />
-                {/* <Stack.Screen
+                {/* <Stack.Screen name="Profile" component={ProfileScreen} /> */}
+                {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
+                <Stack.Screen
                     options={{
                         animation: 'fade',
                     }}
                     name="Main"
                     component={BottomTabNavigator}
-                /> */}
+                />
             </Stack.Navigator>
         </NavigationContainer>
     );
