@@ -40,11 +40,11 @@ const ProductItem: React.FC<Props> = ({item}) => {
         </View>
       </View>
       <Pressable  style={styles.btn}>
-        {/* {addedToCart ? (
+        {/* {addedToCart ? ( */}
           <View>
             <Text style={styles.txt}>Added to Cart</Text>
           </View>
-        ) : (
+        {/* ) : (
           <Text style={styles.txt}>Add to Cart</Text>
         )} */}
       </Pressable>

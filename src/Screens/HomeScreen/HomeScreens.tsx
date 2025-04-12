@@ -23,17 +23,19 @@ import Loading from '../../Components/Common/Loading';
 import SeacrchComponent from '../../Components/Common/SearchComponent';
 import TitleComponent from '../../Components/Common/Title';
 import LoadingComponenet from '../../Components/LoadComponenet';
+import BannerCarousel from '../../Components/Common/BannerCarousel';
 
 function HomeScreen() {
     const navigation = useNavigation<any>();
-
+    const images = [
+        'https://theme.hstatic.net/1000237375/1000756917/14/slider_item_3_image.jpg?v=1731','https://bookbuy.vn/Res/Images/Album/bc5995b5-64a3-4bc7-8413-718664549f82.jpg?w=880&scale=both&h=320&mode=crop','https://bookbuy.vn/Res/Images/Album/d964cd17-e283-4d7f-8b10-562b454bbcb1.jpg?w=880&scale=both&h=320&mode=crop']
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
                 <SeacrchComponent position={'home'} isChat={true} />
             </View>
             <ScrollView showsVerticalScrollIndicator={false}>
-                {/* <BannerCarousel data={images} autoPlay /> */}
+                <BannerCarousel data={images} autoPlay />
                 <TitleComponent text={'Danh mục sản phẩm'} />
                 {/* <FlatList
                     data={list}

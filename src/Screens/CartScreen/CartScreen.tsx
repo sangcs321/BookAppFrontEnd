@@ -40,8 +40,8 @@ const CartScreen = () => {
            sản phẩm
         </Text>
       </Pressable>
-      {/* <View style={{marginHorizontal: 10}}>
-        {cart.map((item, index) => (
+      <View style={{marginHorizontal: 10}}>
+        {/* {cart.map((item, index) => (
           <CartItem
             key={index}
             item={item}
@@ -49,8 +49,8 @@ const CartScreen = () => {
             // onDecrease={handleDecrease}
             // onDelete={handleDelete}
           />
-        ))}
-      </View> */}
+        ))} */}
+      </View>
       {/* <Loading visible={isLoading} /> */}
     </ScrollView>
   );

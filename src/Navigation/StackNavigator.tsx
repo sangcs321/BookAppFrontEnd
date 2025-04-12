@@ -24,9 +24,9 @@ const StackLayout = () => {
     return (
         <NavigationContainer >
             <Stack.Navigator screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="Login" component={LoginScreen} />
+                {/* <Stack.Screen name="Login" component={LoginScreen} />
                 <Stack.Screen name="Register" component={RegisterScreen} />
-                <Stack.Screen name="Forget" component={ForgetPwScreen} />
+                <Stack.Screen name="Forget" component={ForgetPwScreen} /> */}
                 {/* <Stack.Screen name="Profile" component={ProfileScreen} /> */}
                 {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
                 <Stack.Screen
