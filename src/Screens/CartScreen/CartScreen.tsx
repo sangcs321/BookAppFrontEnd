@@ -24,24 +24,37 @@ import Loading from '../../Components/Common/Loading';
 const CartScreen = () => {
   // const dispatch = useDispatch();
   const navigation = useNavigation<any>();
- 
+//  const cart = useSelector((state: any) => state.cart.cartItems);
+const cart = [
+  { product: {images: ['https://res.cloudinary.com/dms5ykyhc/image/upload/v1744427397/vbrqhmc7aysxm2zepodo.png'], title: 'Sách 1', price: 100000, discount: 0, rate: 4.5}, quantity: 2},
+  { product: {images: ['https://bookbuy.vn/Res/Images/Album/bc5995b5-64a3-4bc7-8413-718664549f82.jpg?w=880&scale=both&h=320&mode=crop'], title: 'Sách 2', price: 200000, discount: 10, rate: 4.0}, quantity: 1},];
+  const [isLoading, setIsLoading] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+  const total = useMemo(() => {
+    let total = 0;
+    cart.forEach((item: any) => {
+      total += item?.product?.price * item?.quantity;
+    });
+    return total;
+  }
+  , [cart]);
   return (
     <ScrollView style={styles.container}>
       <View style={styles.containerTotal}>
         <Text style={styles.txtTotal}>Tổng tiền : </Text>
-        {/* <Text style={styles.txtPrice}>{formatCurrencyVND(total)}</Text> */}
+        <Text style={styles.txtPrice}>{formatCurrencyVND(total)}</Text>
       </View>
       <Pressable
-        
+        style={[styles.btnBuyAll, !disabled && {backgroundColor: 'gray'}]}
+        disabled={!disabled}
+        // onPress={handleBuy}
         >
         <Text style={styles.txtBuyAll}>
-          Tiến hành mua 
-          {/* ({cart?.length}) */}
-           sản phẩm
+          Tiến hành mua ({cart?.length}) sản phẩm
         </Text>
       </Pressable>
       <View style={{marginHorizontal: 10}}>
-        {/* {cart.map((item, index) => (
+        {cart.map((item, index) => (
           <CartItem
             key={index}
             item={item}
@@ -49,7 +62,7 @@ const CartScreen = () => {
             // onDecrease={handleDecrease}
             // onDelete={handleDelete}
           />
-        ))} */}
+         ))} 
       </View>
       {/* <Loading visible={isLoading} /> */}
     </ScrollView>

@@ -15,7 +15,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './style';
 import ProductItem from '../../Components/Common/ProductItem';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 
 
 
@@ -24,14 +24,19 @@ import SeacrchComponent from '../../Components/Common/SearchComponent';
 import TitleComponent from '../../Components/Common/Title';
 import LoadingComponenet from '../../Components/LoadComponenet';
 import BannerCarousel from '../../Components/Common/BannerCarousel';
+import ProductHotItem from '../../Components/Common/ProductHotItem';
+import ProductSale from '../../Components/Common/ProductSale';
 
 function HomeScreen() {
     const navigation = useNavigation<any>();
+    const productsDealsHot = [{ images: ['https://cdn1.fahasa.com/media/catalog/product/a/i/ai-cho-marketing-_-doi-moi-san-pham-01.jpg'], title: 'Sách 1', price: 100000, discount: 0, rate: 4.5 }, { images: ['https://bookbuy.vn/Res/Images/Album/bc5995b5-64a3-4bc7-8413-718664549f82.jpg?w=880&scale=both&h=320&mode=crop'], title: 'Sách 2', price: 200000, discount: 10, rate: 4.0 }, { images: ['https://cdn1.fahasa.com/media/catalog/product/a/i/ai-cho-marketing-_-doi-moi-san-pham-01.jpg'], title: 'Sách 1', price: 100000, discount: 0, rate: 4.5 }, { images: ['https://bookbuy.vn/Res/Images/Album/bc5995b5-64a3-4bc7-8413-718664549f82.jpg?w=880&scale=both&h=320&mode=crop'], title: 'Sách 2', price: 200000, discount: 10, rate: 4.0 }];
+    const productsNor = [{ images: ['https://cdn1.fahasa.com/media/catalog/product/a/i/ai-cho-marketing-_-doi-moi-san-pham-01.jpg'], title: 'Sách 1', price: 100000, discount: 0, rate: 4.5 }, { images: ['https://bookbuy.vn/Res/Images/Album/bc5995b5-64a3-4bc7-8413-718664549f82.jpg?w=880&scale=both&h=320&mode=crop'], title: 'Sách 2', price: 200000, discount: 10, rate: 4.0 }, { images: ['https://cdn1.fahasa.com/media/catalog/product/a/i/ai-cho-marketing-_-doi-moi-san-pham-01.jpg'], title: 'Sách 1', price: 100000, discount: 0, rate: 4.5 }, { images: ['https://bookbuy.vn/Res/Images/Album/bc5995b5-64a3-4bc7-8413-718664549f82.jpg?w=880&scale=both&h=320&mode=crop'], title: 'Sách 2', price: 200000, discount: 10, rate: 4.0 }]
     const images = [
-        'https://theme.hstatic.net/1000237375/1000756917/14/slider_item_3_image.jpg?v=1731','https://bookbuy.vn/Res/Images/Album/bc5995b5-64a3-4bc7-8413-718664549f82.jpg?w=880&scale=both&h=320&mode=crop','https://bookbuy.vn/Res/Images/Album/d964cd17-e283-4d7f-8b10-562b454bbcb1.jpg?w=880&scale=both&h=320&mode=crop']
+        'https://theme.hstatic.net/1000237375/1000756917/14/slider_item_3_image.jpg?v=1731', 'https://bookbuy.vn/Res/Images/Album/bc5995b5-64a3-4bc7-8413-718664549f82.jpg?w=880&scale=both&h=320&mode=crop', 'https://bookbuy.vn/Res/Images/Album/d964cd17-e283-4d7f-8b10-562b454bbcb1.jpg?w=880&scale=both&h=320&mode=crop']
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
+
                 <SeacrchComponent position={'home'} isChat={true} />
             </View>
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -61,23 +66,30 @@ function HomeScreen() {
                 <TitleComponent text={'Deals hot hôm nay'} />
                 {/* {loading3 && <LoadingComponenet />} */}
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                    {/* {productsDealsHot?.map((item, index) => (
-              <ProductHotItem item={item} index={index} key={index} />
-            ))} */}
+                    {productsDealsHot?.map((item, index) => (
+                        <ProductHotItem item={item} index={index} key={index} />
+                    ))}
                 </ScrollView>
+                {/* <TitleComponent text={'Sản phẩm hot trong tuần'} /> */}
+                {/* {loading1 && <LoadingComponenet />} */}
+                {/* <View style={styles.containTrending}>
+                    {productsHot?.map((item, index) => (
+                        <ProductItem item={item} key={index} />
+                    ))}
+                </View> */}
                 <TitleComponent text={'Sản phẩm hot trong tuần'} />
-                {/* {loading1 && <LoadingComponenet />}
-          <View style={styles.containTrending}>
-            {productsHot?.map((item, index) => (
-              <ProductItem item={item} key={index} />
-            ))}
-          </View> */}
+                {/* {loading3 && <LoadingComponenet />} */}
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} >
+                    {productsDealsHot?.map((item, index) => (
+                        <ProductSale item={item} index={index} key={index}  />
+                    ))}
+                </ScrollView>
                 <TitleComponent text={'Sản phẩm trong shop'} />
                 {/* {loading2 && <LoadingComponenet />} */}
                 <View style={styles.containProductInShop}>
-                    {/* {productsNor?.map((item, index) => (
-              <ProductItem item={item} key={index} />
-            ))} */}
+                    {productsNor?.map((item, index) => (
+                        <ProductItem item={item} key={index} />
+                    ))}
                 </View>
             </ScrollView>
 
