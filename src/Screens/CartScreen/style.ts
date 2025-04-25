@@ -57,8 +57,13 @@ const styles = StyleSheet.create({
         flex: 2,
     },
     image: {
-        width: 140,
-        height: 140
+        width: 120,
+        height: 120,
+        borderRadius: 10,
+        marginLeft: 10,
+        marginVertical: 10,
+        marginRight: 10,
+        backgroundColor: Colors.lightGrey,
     },
     txtTitle: {
         fontSize: FontSizeText.fsSmall,

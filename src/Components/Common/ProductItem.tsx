@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import styles from './styles/styleProductItem';
+import styles from './styles/StyleProductItem';
 
 import {useNavigation} from '@react-navigation/native';
 import formatCurrencyVND from '../../Utils/Constants/FormatCurrency';

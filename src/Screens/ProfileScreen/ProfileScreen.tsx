@@ -172,7 +172,7 @@ const ProfileScreen = () => {
                 // ForwardOrderPage('Chờ xác nhận');
               }}>
               <AntDesign name="wallet" size={22} color={Colors.black} />
-              <Text style={styles.badge}>
+              <Text style={styles.badge}>0
                 {/* {ordersWaiting?.orders.length} */}
               </Text>
               <Text style={styles.txtStatusOrder}>Chờ xác nhận</Text>
@@ -183,7 +183,7 @@ const ProfileScreen = () => {
                 // ForwardOrderPage('Chờ lấy hàng');
               }}>
               <AntDesign name="gift" size={22} color={Colors.black} />
-              <Text style={styles.badge}>
+              <Text style={styles.badge}>0
                 {/* {orderConfirmed?.orders.length} */}
               </Text>
               <Text style={styles.txtStatusOrder}>Chờ lấy hàng</Text>
@@ -205,7 +205,7 @@ const ProfileScreen = () => {
                 size={22}
                 color={Colors.black}
               />
-              <Text style={styles.badge_2}>
+              <Text style={styles.badge_2}>0
                 {/* {orderNotRate?.ordersWithoutReviews.length} */}
               </Text>
               <Text style={styles.txtStatusOrder}>Đánh giá</Text>
