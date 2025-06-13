@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "../../Utils/Constants/Colors";
+import { FontSizeText } from "../../Utils/Constants/Font";
 
 export const styles = StyleSheet.create({
     containAvatar: {
@@ -100,8 +101,8 @@ export const styles = StyleSheet.create({
     },
     containBtnBack: {
       position: 'absolute',
-      top: 12,
-      left: 13,
+      top: 25,
+      left: 5,
       zIndex: 1000,
     },
     containIcon: {
@@ -117,4 +118,10 @@ export const styles = StyleSheet.create({
       color: Colors.colorText,
       fontSize: FontSizeText.fsSmall,
     },
+    icon: {
+    paddingHorizontal: 10,
+    position: 'absolute',
+    right: 0,
+    top: 15,
+  },
   });

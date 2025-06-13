@@ -1,12 +1,13 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {Colors} from '../../Utils/Constants/Colors';
-import {TextInput} from 'react-native';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import { Colors } from '../../Utils/Constants/Colors';
+import { TextInput } from 'react-native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useLazySearchProductsQuery } from '../../Redux/RTKQuery/Slice/ProductSlice';
 
 
 type Props = {
@@ -23,23 +24,31 @@ const SeacrchComponent: React.FC<Props> = ({
   isChat = false,
 }) => {
   const navigation = useNavigation<any>();
-  
+  const [searchText, setSearchText] = useState('');
+  const [trigger, { data, isLoading, isError }] = useLazySearchProductsQuery();
+  const handleTextChange = (text: string) => {
+    setSearchText(text);
+    if (onChangeText) onChangeText(text);
+  };
+  const handleChooseSearch = useCallback(() => {
+    if (searchText.trim()) {
+      navigation.navigate('Category', { keyword: searchText });
+    }
+  }, [searchText, navigation]);
   return (
     <View style={styles.container}>
-      <Pressable style={styles.searchBar} 
-    //   onPress={handleChooseSearch}
+      <Pressable style={styles.searchBar}
+        onPress={handleChooseSearch}
       >
         <AntDesignIcon name="search1" color={Colors.lightGrey} size={15} />
         <TextInput
-        //   ref={inputRef}
-          placeholder="Search in MACAU shop"
+          //   ref={inputRef}
+          placeholder="Search in shop"
           placeholderTextColor={Colors.lightGrey}
-        //   value={searchText}
-        //   onChangeText={handleTextChange}
-        //   onSubmitEditing={handleSearch}
+          value={searchText}
+          onChangeText={handleTextChange}
+          onSubmitEditing={handleChooseSearch}
           style={styles.searchTxt}
-        //   onPress={handleChooseSearch}
-        //   onFocus={handleOnFocus}
         />
       </Pressable>
       {/* {isChat && (

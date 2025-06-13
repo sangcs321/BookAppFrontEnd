@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
       paddingHorizontal: 12,
       paddingVertical: 10,
       borderRadius: 5,
-      elevation: 2,
+      elevation: 0,
     },
     headerTopBarText: {
       color: Colors.white,

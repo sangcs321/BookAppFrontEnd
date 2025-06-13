@@ -16,6 +16,10 @@ import BottomTabAdminNavigator from './BottomTabAdminNavigator';
 import DetailAccount from '../Screens/AdminScreen/ManageScreen/DetailAccount';
 import DetailOrder from '../Screens/AdminScreen/ManageScreen/DetailOrder';
 import EditProduct from '../Screens/AdminScreen/ManageScreen/EditProduct';
+import ProductDetails from '../Screens/ProductDetails/ProductDetails';
+import PayScreen from '../Screens/PayScreen/PayScreen';
+import EditProfileScreen from '../Screens/EditProfileScreen/EditProfileScreen';
+import CategoriesScreen from '../Screens/CategoryScreen/CategoriesScreen';
 
 type StackParamList = {
     Login: any;
@@ -29,7 +33,11 @@ type StackParamList = {
     OrderDetail: any;
     DetailOrder: any;
     EditProduct: any;
-
+    MainAdmin: any;
+    Detail: any;
+    Payment: any;
+    EditProfile:any;
+    Category: any;
 }
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -37,11 +45,10 @@ const StackLayout = () => {
     return (
         <NavigationContainer >
             <Stack.Navigator screenOptions={{ headerShown: false }}>
-                {/* <Stack.Screen name="Login" component={LoginScreen} />
+
+                <Stack.Screen name="Login" component={LoginScreen} />
                 <Stack.Screen name="Register" component={RegisterScreen} />
-                <Stack.Screen name="Forget" component={ForgetPwScreen} /> */}
-                {/* <Stack.Screen name="Profile" component={ProfileScreen} /> */}
-                {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
+                <Stack.Screen name="Forget" component={ForgetPwScreen} />
                 <Stack.Screen
                     options={{
                         animation: 'fade',
@@ -49,8 +56,8 @@ const StackLayout = () => {
                     name="Main"
                     component={BottomTabNavigator}
                 />
-                {/* <Stack.Screen name="manage" component={ManageOrder} /> */}
-                {/* <Stack.Screen name="MainAdmin" component={BottomTabAdminNavigator} /> */}
+                
+                <Stack.Screen name="MainAdmin" component={BottomTabAdminNavigator} />
                 <Stack.Screen name="DetailAccount" component={DetailAccount} />
                 <Stack.Screen
                     options={{
@@ -59,7 +66,11 @@ const StackLayout = () => {
                     name="DetailOrder"
                     component={DetailOrder}
                 />
+                <Stack.Screen name="Detail" component={ProductDetails} />
                 <Stack.Screen name="EditProduct" component={EditProduct} />
+                <Stack.Screen name="Payment" component={PayScreen} />
+                <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+                <Stack.Screen name="Category" component={CategoriesScreen} />
 
             </Stack.Navigator>
         </NavigationContainer>

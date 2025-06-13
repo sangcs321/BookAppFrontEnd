@@ -75,6 +75,7 @@ export const styles = StyleSheet.create({
     gap: 5,
   },
   image: {
+    borderWidth: 0.3,
     width: WIDTH,
     height: WIDTH,
     marginBottom: 20,
@@ -83,6 +84,7 @@ export const styles = StyleSheet.create({
   },
   containDropdown: {
     marginBottom: 30,
+    maxHeight: 5000,
   },
   btnSclose: {
     position: 'absolute',

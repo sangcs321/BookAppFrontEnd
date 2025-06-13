@@ -18,26 +18,85 @@ import {Colors} from '../../Utils/Constants/Colors';
 import formatCurrencyVND from '../../Utils/Constants/FormatCurrency';
 
 import styles from './style';
-
+import {
+   useGetCartItemsQuery , 
+  useUpdateCartItemQuantityMutation, useDeleteCartItemMutation} from '../../Redux/RTKQuery/Slice/CartSlice';
 import Loading from '../../Components/Common/Loading';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+
+
 
 const CartScreen = () => {
-  // const dispatch = useDispatch();
   const navigation = useNavigation<any>();
-//  const cart = useSelector((state: any) => state.cart.cartItems);
-const cart = [
-  { product: {images: ['https://res.cloudinary.com/dms5ykyhc/image/upload/v1744427397/vbrqhmc7aysxm2zepodo.png'], title: 'Sách 1', price: 100000, discount: 0, rate: 4.5}, quantity: 2},
-  { product: {images: ['https://bookbuy.vn/Res/Images/Album/bc5995b5-64a3-4bc7-8413-718664549f82.jpg?w=880&scale=both&h=320&mode=crop'], title: 'Sách 2', price: 200000, discount: 10, rate: 4.0}, quantity: 1},];
-  const [isLoading, setIsLoading] = useState(false);
-  const [disabled, setDisabled] = useState(false);
+  const dispatch = useDispatch();
+  const userId = useSelector((state: RootState) => state.user?.id);
+
+  // Lấy cartItems từ Redux state (được đồng bộ qua extraReducers)
+  const { cartItems, loading, error } = useSelector((state: RootState) => state.cart);
+ 
+  // Gọi API để lấy cartItems (kích hoạt đồng bộ qua extraReducers)
+  useGetCartItemsQuery(userId);
+
+  // Hook để cập nhật số lượng
+  const [updateCartItemQuantity] = useUpdateCartItemQuantityMutation();
+
+  // Hook để xóa sản phẩm
+  const [deleteCartItem] = useDeleteCartItemMutation();
+
+  // Tính tổng tiền
   const total = useMemo(() => {
-    let total = 0;
-    cart.forEach((item: any) => {
-      total += item?.product?.price * item?.quantity;
+    return cartItems.reduce((sum, item) => {
+      const price = item?.product?.price || 0;
+      const discount = item?.product?.discount || 0;
+      const discountedPrice =
+        discount > 0 ? price - (price * (discount * 10)) / 100 : price;
+      const quantity = item?.quantity || 0;
+      return sum + discountedPrice * quantity;
+    }, 0);
+  }, [cartItems]);
+
+  // Hàm tăng số lượng
+  const handleIncrease =async (itemId: number) => {
+    const item = cartItems.find((i) => i.id === itemId.id);
+    if (!item) {
+      console.error('Item not found in cartItems:', itemId.id);
+      return;
+    }
+    const newQuantity = (item.quantity || 0) + 1;
+    console.log('Calling updateCartItemQuantity with:', { id: item.id, quantity: newQuantity });
+  
+    try {
+      const result = await updateCartItemQuantity({ id: item.id, quantity: newQuantity }).unwrap();
+      console.log('API call successful:', result); // Thành công
+    } catch (error) {
+      console.error('API call failed:', error); // Thất bại
+    }
+  };
+
+  // Hàm giảm số lượng
+  const handleDecrease = (item: any) => {
+    const newQuantity = Math.max(1, (item.quantity || 0) - 1);
+    updateCartItemQuantity({ id: item.id, quantity: newQuantity });
+  };
+
+  // Hàm xóa sản phẩm
+  const handleDelete = (item: any) => {
+    deleteCartItem(item.id);
+  };
+
+  // Kiểm tra disabled cho nút "Tiến hành mua"
+  const disabled = cartItems.length > 0;
+
+  
+const handleBuy = () => {
+    // Điều hướng đến Payment và truyền cartItems, total
+    navigation.navigate('Payment', {
+      cartItems: cartItems,
+      total: total,
     });
-    return total;
-  }
-  , [cart]);
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.containerTotal}>
@@ -45,32 +104,32 @@ const cart = [
         <Text style={styles.txtPrice}>{formatCurrencyVND(total)}</Text>
       </View>
       <Pressable
-        style={[styles.btnBuyAll, !disabled && {backgroundColor: 'gray'}]}
+        style={[styles.btnBuyAll, !disabled && { backgroundColor: 'gray' }]}
         disabled={!disabled}
-        // onPress={handleBuy}
-        >
+        onPress={handleBuy}
+      >
         <Text style={styles.txtBuyAll}>
-          Tiến hành mua ({cart?.length}) sản phẩm
+          Tiến hành mua ({cartItems?.length || 0}) sản phẩm
         </Text>
       </Pressable>
-      <View style={{marginHorizontal: 10}}>
-        {cart.map((item, index) => (
+      <View style={{ marginHorizontal: 10 }}>
+        {cartItems.map((item, index) => (
           <CartItem
             key={index}
             item={item}
-            // onIncrease={handleIncrease}
-            // onDecrease={handleDecrease}
-            // onDelete={handleDelete}
+            onIncrease={handleIncrease}
+            onDecrease={handleDecrease}
+            onDelete={handleDelete}
           />
-         ))} 
+        ))}
       </View>
-      {/* <Loading visible={isLoading} /> */}
     </ScrollView>
   );
 };
 
-// Tách riêng CartItem để tránh render lại toàn bộ
-const CartItem = React.memo(({item, onIncrease, onDecrease, onDelete}: any) => (
+// Tách riêng CartItem để tránh render lại
+const CartItem = React.memo(({ item, onIncrease, onDecrease, onDelete }: any) => (
+  
   <View style={styles.containItem}>
     <Pressable style={styles.item}>
       <View>
@@ -78,13 +137,14 @@ const CartItem = React.memo(({item, onIncrease, onDecrease, onDelete}: any) => (
           style={styles.image}
           resizeMode="contain"
           source={{
-            uri: item?.product?.images[0],
+            
+            uri: item?.product?.productImages?.[0]?.image?.url || 'https://via.placeholder.com/100',
           }}
         />
       </View>
       <View style={styles.containInfor}>
         <Text numberOfLines={3} style={styles.txtTitle}>
-          {item?.product?.title}
+          {item?.product?.title || 'Không có tên'}
         </Text>
         <Text style={styles.txtPriceItem}>
           {item?.product?.discount > 0
@@ -92,32 +152,34 @@ const CartItem = React.memo(({item, onIncrease, onDecrease, onDelete}: any) => (
                 item?.product?.price -
                   (item?.product?.price * (item?.product?.discount * 10)) / 100,
               )
-            : formatCurrencyVND(item?.product?.price)}
+            : formatCurrencyVND(item?.product?.price || 0)}
         </Text>
-        {/* <Rating size={12} rating={item?.product?.rate} disabled /> */}
         <Pressable style={styles.containBtn}>
           <View style={styles.containInDeCrease}>
             <Pressable
               onPress={() => onDecrease(item)}
-              style={styles.btnDecrease}>
+              style={styles.btnDecrease}
+            >
               <AntDesign name="minus" size={18} color={Colors.white} />
             </Pressable>
             <Pressable style={styles.containQuality}>
-              <Text style={{color: 'red'}}>{item?.quantity}</Text>
+              <Text style={{ color: 'red' }}>{item?.quantity || 0}</Text>
             </Pressable>
             <Pressable
               onPress={() => onIncrease(item)}
-              style={styles.btnIncrease}>
+              style={styles.btnIncrease}
+            >
               <Feather name="plus" size={18} color={Colors.white} />
             </Pressable>
           </View>
           <Pressable onPress={() => onDelete(item)} style={styles.btnDelete}>
-            <FontAwesome name={'trash-o'} size={18} color={Colors.white} />
+            <FontAwesome name="trash-o" size={18} color={Colors.white} />
           </Pressable>
         </Pressable>
       </View>
     </Pressable>
   </View>
 ));
+
 
 export default CartScreen;

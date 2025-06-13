@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
       paddingHorizontal: 12,
       paddingVertical: 10,
       borderRadius: 5,
-      elevation: 2,
+      elevation: 0,
     },
     headerTopBarText: {
       color: Colors.white,
@@ -108,6 +108,7 @@ export const styles = StyleSheet.create({
       marginHorizontal: 10,
       marginVertical: 10,
       width: '50%',
+      zIndex: 1000,
     },
     iconLock: {
       position: 'absolute',

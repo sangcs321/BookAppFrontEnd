@@ -26,6 +26,7 @@
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="com.anonymous.bookApp"/>
+        <data android:scheme="exp+bookapp"/>
       </intent-filter>
     </activity>
   </application>

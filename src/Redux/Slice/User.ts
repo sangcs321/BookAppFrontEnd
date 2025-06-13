@@ -37,7 +37,7 @@ export const userSlice = createSlice({
     state.id = action.payload.id;
     state.name = action.payload.name ;
     state.avatar = action.payload.avatar || 'https://cellphones.com.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg'
-    state.phoneNumber = action.payload.phoneNumber ||"" ;
+    state.phoneNumber = action.payload.phone ||"" ;
     state.email = action.payload.email;
     state.role = action.payload.role;
     state.verified = action.payload.verified;
@@ -47,24 +47,15 @@ export const userSlice = createSlice({
     state.name = action.payload.name ;
     state.avatar = action.payload.avatar
     state.address = action.payload.address;
-    state.phoneNumber = action.payload.phoneNumber;
+    state.phoneNumber = action.payload.phone;
    },
-   clearUser:(state, action) => {
-    state.id = action.payload._id;
-    state.name = action.payload.name ;
-    state.avatar = action.payload.avatar || 'https://cellphones.com.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg'
-    state.phoneNumber = action.payload.phoneNumber ||"" ;
-    state.email = action.payload.email;
-    state.role = action.payload.role;
-    state.verified = action.payload.verified;
-    state.address = action.payload.address;
+   clearUser:(state) => {
+      Object.assign(state, initialState);
    }
-    
-    
   },
 })
 
-export const {setUser, updateProfile} = userSlice.actions
+export const {setUser, updateProfile, clearUser} = userSlice.actions
 
 export default userSlice.reducer
 

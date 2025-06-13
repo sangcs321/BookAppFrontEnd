@@ -21,12 +21,13 @@ import Toast from 'react-native-root-toast';
 import { setUser } from '../../Redux/Slice/User';
 import Constants from 'expo-constants';
 import { useDispatch } from 'react-redux';
+import { setCartItems } from '../../Redux/Slice/Cart';
 
 const API_URL = Constants.expoConfig?.extra?.API_URL;
 
 function LoginScreen() {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [textErr, setTextErr] = useState('');
@@ -39,6 +40,8 @@ function LoginScreen() {
       return true;
     }
   };
+
+
   const handleLogin = () => {
     if (validateLogin()) {
       const user = {
@@ -47,36 +50,43 @@ function LoginScreen() {
       };
       axios
         .post(`${API_URL}/api/auth/login?email=${user.email}&password=${user.password}`)
-        .then(res => {
+        .then(async res => {
           const token = res.data.token;
           const userId = res.data.userId;
-          AsyncStorage.setItem('authToken', token);
+          await AsyncStorage.setItem('authToken', token);
           if (token) {
             const decodedToken = jwtDecode(token);
-            axios
-              .get(`${API_URL}/api/users/profile/${userId}`,{
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },})
-              .then(res => {
-                const user = res.data;
-                console.log(user.id);
-                // if (user.isBlock) {
-                //   Alert.alert(
-                //     'Thông báo',
-                //     'Tài khoản của bạn đã bị chặn, vui lòng liên hệ shop để được mở chặn',
-                //   );
-                //   return;
-                // }
+            Promise.all([
+              axios.get(`${API_URL}/api/users/profile/${userId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+              }),
+              axios.get(`${API_URL}/api/cart/user/${userId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+              }),
+            ])
+              .then(([profileRes, cartRes]) => {
+                const user = profileRes.data;
+                const cartItems = cartRes.data;
+                if (user.isBlock) {
+                  Alert.alert(
+                    'Thông báo',
+                    'Tài khoản của bạn đã bị chặn, vui lòng liên hệ shop để được mở chặn',
+                  );
+                  return;
+                }
+
+                // Lưu user và cartItems vào các slice riêng
                 dispatch(setUser(user));
-                // if (user.role === 'User') {
+                dispatch(setCartItems(cartItems));
+
+                if (user.role === 0) {
                   navigation.replace('Main');
-                // } else {
-                //   navigation.replace('MainAdmin');
-                // }
+                } else {
+                  navigation.replace('MainAdmin');
+                }
               })
               .catch(err => {
-                console.log(err);
+                console.log('Error:', err);
               });
           }
         })
@@ -88,10 +98,10 @@ function LoginScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <Image
-        //   style={styles.imgLogo}
-        //   resizeMode="cover"
-        //   source={require('../../Assets/Images/LogoApp.png')}
+        <Image                                                    
+          style={styles.imgLogo}
+          resizeMode="contain"                                               
+          source={require('../../../assets/logo.png')}
         />
       </View>
       <KeyboardAvoidingView>

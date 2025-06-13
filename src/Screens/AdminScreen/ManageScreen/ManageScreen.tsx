@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import TopTabViewAdmin from '../../../Navigation/TopTabViewAdmin';
-
+// import 
 
 const MananageScreen = () => {
 //   const {refetch} = useGetAllOrderQuery(undefined);
